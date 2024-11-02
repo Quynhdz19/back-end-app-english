@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RegisterUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
+use App\Models\Course;
+use App\Models\UserCourse;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 class UserController extends Controller
@@ -229,4 +231,19 @@ class UserController extends Controller
 
     }
 
+
+
+    public function getFavouriteCourse(Request $request){
+        $user_id = $request -> input('user_id');
+        $course_id = $request -> input('course_id');
+
+        $result = $this->userService->getFavouriteCourse($user_id, $course_id);
+        return $result;
+
+
+    }
+
 }
+
+
+

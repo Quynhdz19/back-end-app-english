@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
+use App\Models\UserCourse;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -28,6 +29,7 @@ class UserService
             'email' => $email,
             'password' => $hashedPassword,
         ]);
+
 
         return $user ? true : false;
     }
@@ -106,6 +108,29 @@ class UserService
         $ranking = User::orderBy('point', 'desc')->take(5)->get();
         return $ranking;
 
+    }
+
+    public function getFavouriteCourse($user_id,$course_id){
+        $favouriteCourse = UserCourse::where('user_id',$user_id)->where('course_id',$course_id)->first();
+        if($favouriteCourse){
+            if($favouriteCourse->is_favourite === false){
+                UserCourse::updated(['is_favourite' => true]);
+                return 'added ';
+            }
+            else {
+                return 'already added';
+            }
+        }
+        UserCourse::create([
+            'user_id' => $user_id,
+            'course_id' => $course_id,
+            'is_favourite' => true,
+        ]);
+
+        // Return a response indicating the course was added
+        return [
+            'message' => 'added',
+        ];
     }
 
 
