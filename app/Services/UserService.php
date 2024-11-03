@@ -110,27 +110,40 @@ class UserService
 
     }
 
-    public function getFavouriteCourse($user_id,$course_id){
-        $favouriteCourse = UserCourse::where('user_id',$user_id)->where('course_id',$course_id)->first();
-        if($favouriteCourse){
-            if($favouriteCourse->is_favourite === false){
-                UserCourse::updated(['is_favourite' => true]);
-                return 'added ';
-            }
-            else {
-                return 'already added';
-            }
-        }
-        UserCourse::create([
-            'user_id' => $user_id,
-            'course_id' => $course_id,
-            'is_favourite' => true,
-        ]);
+    public function getFavouriteCourse($user_id,$course_id)
+    {
+        if ($user_id && $course_id) {
 
-        // Return a response indicating the course was added
-        return [
-            'message' => 'added',
-        ];
+            $favouriteCourse = UserCourse::where('user_id', $user_id)->where('course_id', $course_id)->first();
+
+            if ($favouriteCourse) {
+                if ($favouriteCourse->is_favourite === false) {
+                    UserCourse::updated(['is_favourite' => true]);
+                    return [
+                        'message' => 'added',
+                    ];
+                } else {
+                    return[
+                        'message' => 'already added',
+                    ];
+                }
+            }
+            UserCourse::create([
+                'user_id' => $user_id,
+                'course_id' => $course_id,
+                'is_favourite' => true,
+            ]);
+
+            // Return a response indicating the course was added
+            return [
+                'message' => 'added',
+            ];
+        }
+        else{
+            return [
+                'message' => 'error',
+            ];
+        }
     }
 
 
