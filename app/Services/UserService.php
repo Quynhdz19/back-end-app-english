@@ -110,12 +110,11 @@ class UserService
 
     }
 
-    public function getFavouriteCourse($user_id,$course_id)
+    public function addFavouriteCourse($user_id,$course_id)
     {
         if ($user_id && $course_id) {
 
             $favouriteCourse = UserCourse::where('user_id', $user_id)->where('course_id', $course_id)->first();
-
             if ($favouriteCourse) {
                 if ($favouriteCourse->is_favourite === false) {
                     UserCourse::updated(['is_favourite' => true]);

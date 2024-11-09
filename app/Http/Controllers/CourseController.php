@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\UserCourse;
 use App\Models\Course;
 use App\Services\CourseService;
 use Illuminate\Http\Request;
@@ -76,9 +77,9 @@ class CourseController extends Controller
      *     @OA\Response(response=401, description="Unauthorized")
      * )
      */
-    public function getCourseDetail(Request $request){
-        $id =$request->input('id');
-        $result=$this->courseService->getCourse($id);
+    public function getCourseUser(Request $request){
+        $user_id =$request->input('user_id');
+        $result = $this->courseService->getCourseUser($user_id);
         return response()->json($result);
     }
 

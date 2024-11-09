@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Course;
+use App\Models\UserCourse;
 
 class CourseService
 {
@@ -19,6 +20,8 @@ class CourseService
         //select * from Course
         return Course::all();
     }
+
+
 
     public function deleteCourse($id)
     {
@@ -40,5 +43,10 @@ class CourseService
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+    }
+
+    public function getCourseUser($user_id){
+        $course = UserCourse::query()->where('user_id', $user_id)->pluck('course_id');
+        return $course;
     }
 }

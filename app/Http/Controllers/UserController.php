@@ -233,15 +233,17 @@ class UserController extends Controller
 
 
 
-    public function getFavouriteCourse(Request $request){
+    public function addFavouriteCourse(Request $request){
         $user_id = $request -> input('user_id');
         $course_id = $request -> input('course_id');
 
-        $result = $this->userService->getFavouriteCourse($user_id, $course_id);
+        $result = $this->userService->addFavouriteCourse($user_id, $course_id);
         return $result;
 
 
     }
+
+
 
 }
 
